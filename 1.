@@ -1,0 +1,79 @@
+a) Förklara skillnaden mellan stackallokering, statisk samt dynamisk minnesallokering och hur detta påverkar variablers
+livslängd. Ge minst ett exempel på objekt allokerade på stacken, i SRAM samt i DRAM (på heapen).
+
+Svar: 
+
+Stackallokering : Stacken är en minnesregion som används för att lagra lokala variabler och funktionsanrop.
+Variabler som allokeras på stacken har en fast storlek och lagras på stacken i ordningen sist in först ut, lite
+som en hög med tallrickar. Stackallokering går snabbt eftersom minner redan är ledigt och det är lätt att hålla reda
+på livslängden för variabler eftersom att de automatiskt avallokeras när "tallricken" tas bort från stacken.
+
+Statisk minnesallokering: Detta handlar om allokering av minne för variabler i det statiska minnet. Statiskt minne
+är även känt som flashminne eller ROM minne (read only memory) Variabler som allokeras till statiskt minne har en fast
+storlek och lagras i en reserverad plats i minnet som inte kan användas för annat. Statiskt minne är inte lika snabbt
+som det på stacken, men det är snabbare än den dynamiska minnesallokeringen och kan användas för att lagra data som inte
+ändras under körningen av programmet, som tex globala variabler. Livslängden för variabler i statiskt minne är hela programmet.
+
+Dynamiskt minnesallokering: Minne för allokering av variabler när man ska använda funktioner som malloc. Dynamiskt minne kallas även
+heapminne. Variabler som allokeras på heapen har en varierbar storlek och lagras på minnes "regionen" som kallas för just heapen. 
+Heapen är en stor "minnesregion" som används för att lagra variabler som behöver kunna allokeras och avallokeras under programmets körning.
+Dynamisk minnesallokering är långsammare än stackallokering och statisk minnesallokering då det krävs mer arbete för att allokera och avallokera minnet i fråga.
+
+Exempel på objekt allokerade på stacken, i SRAM samt i DRAM (på heapen).
+
+
+Stacken: Lokala variabler, funktionsparametrar.
+Statiskt minne: Globala variabler.
+Heapen: Objekt skapade med malloc eller dynamiskt allokerade arrayer.
+
+
+
+b) Ange synlighet, livslängd och lagringsplats på nedanstående datamedlemmar. Ange också datamedlemmarnas storlek
+på en 64-bitars CPU.
+#include <stdio.h>
+#include <stdlib.h>
+const size_t SIZE = 100;
+int main(void)
+{
+const int i = 3, *j = &i;
+static double d = 4.5, *ptr1 = &d;
+register float f = -3.2f;
+auto size_t j = 100;
+char* s = (char*)malloc(sizeof(char) * 100);
+return 0;
+}
+
+Synligheten för datamedlemmarna i koden är följande:
+
+i: i är en lokal variabel och är endast synlig inom main.
+j: j är en lokal variabel och är endast synlig inom main. Det är en pekare till ett konstant heltal.
+d: d är en lokal statisk variabel. Den är synlig i main, men behåller sitt värde mellan funktionsanrop.
+ptr1: ptr1 är en lokal variabel och är endast synlig inom main. Det är en pekare till en dubbel.
+f: f är en lokal variabel och är endast synlig inom main. Det är en registervariabel, vilket betyder att den lagras i ett CPU-register snarare än i minnet.
+j: j är en lokal variabel och är endast synlig inom main. Det är en automatisk variabel, vilket innebär att den lagras i stacken. Det är av typen size_t.
+s: s är en lokal variabel och är endast synlig inom main. Det är en pekare till char och lagras på heapen.
+
+Livslängden för dessa datamedlemmar är till slutet av main.
+
+
+
+Lagringsplatsen för dessa datamedlemmar är följande:
+
+i: i lagras på stacken.
+j: j lagras på stacken.
+d:d lagras i statiskt minne.
+ptr1: ptr1 lagras på stacken.
+f: f lagras i ett CPU-register, om möjligt. Om inte, kommer det att lagras på heapen.
+j: j lagras på stacken.
+s: s lagras på heapen.
+
+
+Storleken på dessa datamedlemmar på en 64-bitars CPU är följande:
+
+i: 4 byte
+j: 8 byte
+d: 8 byte
+ptr1: 8 byte
+f: 4 byte
+j: 8 byte
+s: 8 byte
